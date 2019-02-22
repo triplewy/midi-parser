@@ -1,0 +1,26 @@
+{
+  "name": "midi-parser",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "triplewy <triplewy@gmail.com>",
+  "license": "MIT",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@tonejs/midi": "^1.2.0",
+    "dotenv": "^6.2.0",
+    "midi-file": "^1.1.1",
+    "midi-parser-js": "^3.1.7",
+    "mongodb": "^3.1.13",
+    "tone": "^13.4.9"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.0.0"
+  }
+}
