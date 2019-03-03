@@ -1,23 +1,28 @@
-const fs = require('fs')
+const fs = require("fs");
+const { promisfy } = require("util");
 
-function getFolder(songName) {
-  return new Promise(function(resolve, reject) {
-    fs.readdir('/Users/alexyu/Desktop/Sam_Gellaitry/MIDI', function(err, result) {
-      result.forEach(name => {
-        if (fs.lstatSync(`/Users/alexyu/Desktop/Sam_Gellaitry/MIDI/${name}`).isDirectory()) {
-          const nameArray = name.split('(')
-          const title = nameArray[0]
-          const year = nameArray[1].substring(0, nameArray[1].length - 1)
-          if (title.toLowerCase() == songName.toLowerCase()) {
-            return resolve({ folder: `/Users/alexyu/Desktop/Sam_Gellaitry/MIDI/${name}`, title: title, year: year })
-          }
+const readdir = promisfy(fs.readdir);
+
+async function getFolder(songName) {
+  try {
+    const result = readdir("/Users/alexyu/Desktop/Sam_Gellaitry/MIDI");
+    for (let i = 0; i < result.length; i += 1) {
+      const name = result[i];
+      if (fs.lstatSync(`/Users/alexyu/Desktop/Sam_Gellaitry/MIDI/${name}`).isDirectory()) {
+        const nameArray = name.split("(");
+        const title = nameArray[0];
+        const year = nameArray[1].substring(0, nameArray[1].length - 1);
+        if (title.toLowerCase() === songName.toLowerCase()) {
+          return { folder: `/Users/alexyu/Desktop/Sam_Gellaitry/MIDI/${name}`, title, year };
         }
-      })
-      return reject('No folder found')
-    })
-  })
+      }
+    }
+    return "No folder found";
+  } catch (e) {
+    throw e;
+  }
 }
 
 module.exports = {
-  getFolder: getFolder
-}
+  getFolder
+};
